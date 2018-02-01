@@ -10,6 +10,7 @@ class FiguresController < ApplicationController
   end
 
   post '/figures/:id' do
+    binding.pry
     @figures = Figures.find(:id)
     erb :'/figures/show'
   end
