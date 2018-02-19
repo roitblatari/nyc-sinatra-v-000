@@ -1,6 +1,7 @@
 class FiguresController < ApplicationController
 
   get '/figures' do
+    #  binding.pry
     @figures = Figure.all
     erb :'/figures/index'
   end
@@ -11,9 +12,20 @@ class FiguresController < ApplicationController
   end
 
   post '/figures' do
-    binding.pry
-    @figure = Figure.create(name: params[:figure]["name"], title: params[:figure]["title"]["name"])
+    @figure = Figure.create(params["figure"])
+    @figure.titles << Title.find_or_create_by(name: params[:title]["name"])     
+    @figure.landmarks << Landmark.find_or_create_by(name: params[:landmark]["name"])    
+#  binding.pry 
+        redirect "/figures/#{@figure.id}"
+  end
+
+  get '/figures/:id' do 
     @figure = Figure.find(params[:id])
     erb :'/figures/show'
+  end
+
+  get '/figures/:id/edit' do 
+    @figure = Figure.find(params[:id])
+    erb :'/figures/edit'
   end
 end
