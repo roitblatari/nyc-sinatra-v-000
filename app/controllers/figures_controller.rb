@@ -28,4 +28,14 @@ class FiguresController < ApplicationController
     @figure = Figure.find(params[:id])
     erb :'/figures/edit'
   end
+
+  patch '/figures/:id' do
+#  binding.pry
+    @figure = Figure.find(params[:id])
+    @figure.landmarks << Landmark.find_or_create_by(name: params[:landmark][:name])
+
+    @figure.update(name: params[:figure][:name])
+    @figure.landmarks.update(name: params[:landmark][:name])
+    erb :'/figures/show'
+  end
 end
